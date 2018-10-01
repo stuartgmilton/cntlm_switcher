@@ -1,0 +1,26 @@
+---
+
+config_location: /etc/cntlm.conf
+service_name: cntlmd
+
+config_template: cntlm.conf.j2
+
+username: pidgeon
+domain: fancier
+password: flappy
+
+pass_lm: 32D74698BE6565AAA1C4EF70C0593492
+pass_nt: 22B9085463404EE852F94123CF48A793
+pass_ntlm: 11826D3C665C37C76B53397D5D47BBCB
+
+proxy_address: grey.birds.com:80
+no_proxy_on: "localhost, 127.0.0.*, 10.*, 192.168.*"
+no_proxy_off: "*"
+
+listen_ip: 0.0.0.0
+listen_port: 3128
+
+cntlm_allows:
+  - 127.0.0.1
+cntlm_denies:
+  - 0/0

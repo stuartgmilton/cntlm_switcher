@@ -1,0 +1,23 @@
+---
+
+ - name: Install cntlm     
+   yum:
+      name: cntlm
+      state: present
+
+ - name: Install cmtlm template file
+   template:
+     src: "{{ config_template }}"
+     dest: "{{ config_location }}"
+     owner: 0
+     group: 0
+     mode: 0600
+   notify: "Restart {{ service_name }} service" 
+
+ - name: Ensure CNTLM service is running
+   service:
+     name: cntlm 
+     state: started 
+     enabled: yes
+
+...
