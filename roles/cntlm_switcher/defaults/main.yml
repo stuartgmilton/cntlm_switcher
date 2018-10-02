@@ -1,10 +1,17 @@
 ---
 
 config_location: /etc/cntlm.conf
-service_name: cntlmd
+service_name: cntlm
+
+menu_location: /home/ansible/.local/share/applications/cntlm.desktop
+menu_template: cntlm.desktop.j2
 
 no_proxy_on: "localhost, 127.0.0.*, 10.*, 192.168.*"
 no_proxy_off: "*"
 
-icon_on: "green"
-icon_off: "red"
+icon_on: "/home/ansible/.icons/green.png"
+icon_off: "/home/ansible/.icons/red.png"
+
+status_on: "Proxy On"
+status_off: "Proxy Off"
+

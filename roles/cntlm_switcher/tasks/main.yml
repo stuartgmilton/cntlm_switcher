@@ -23,12 +23,14 @@
      proxy_was_on: true
      new_noproxy: "{{ no_proxy_off }}"
      new_icon: "{{ icon_off }}"
+     new_status: "{{ status_off }}"
    when: file_contents.changed == true
 
  - set_fact:
      proxy_was_on: false
      new_noproxy: "{{ no_proxy_on }}"
      new_icon: "{{ icon_on }}"
+     new_status: "{{ status_on }}"
    when: file_contents.changed == false
 
  - name: Update state of proxy
@@ -37,8 +39,23 @@
      regexp: "^(.*)NoProxy(.*)$"
      line: "NoProxy {{ new_noproxy }}"
      backrefs: yes
+   notify: "Restart {{ service_name }} service"
 
+ - name: Current NoProxy is set as
+   debug:
+     msg: "NoProxy {{ new_noproxy }}"
 
+ - name: Install cmtlm menu item
+   template:
+     src: "{{ menu_template }}"
+     dest: "{{ menu_location }}"
+     owner: ansible
+     group: ansible
+     mode: 0644
+   vars:
+     app_name: "{{ new_status }}" 
+     app_icon_path: "{{ new_icon }}"
+     executable_playbook_location: "pwd"
 
 
 
