@@ -1,0 +1,52 @@
+---
+
+ - name: confirm cntlm installed    
+   yum:
+      name: cntlm
+      state: present
+
+ - name: confirm cntlm is running
+   service:
+     name: cntlm 
+     state: started
+     enabled: yes
+
+ - name: check state of proxy
+   lineinfile:
+     path: "{{ config_location}}"
+     line: "NoProxy {{ no_proxy_off }}"
+     state: present
+   check_mode: yes
+   register: file_contents
+
+ - set_fact:
+     proxy_was_on: true
+     new_noproxy: "{{ no_proxy_off }}"
+     new_icon: "{{ icon_off }}"
+   when: file_contents.changed == true
+
+ - set_fact:
+     proxy_was_on: false
+     new_noproxy: "{{ no_proxy_on }}"
+     new_icon: "{{ icon_on }}"
+   when: file_contents.changed == false
+
+ - name: Update state of proxy
+   lineinfile:
+     dest: "{{ config_location}}"
+     regexp: "^(.*)NoProxy(.*)$"
+     line: "NoProxy {{ new_noproxy }}"
+     backrefs: yes
+
+
+
+
+
+
+ #check no_proxy line in conf file
+ #  *
+ #    then its currently off, so switch it on, restart & change the icon
+ #  not *
+ #    then its currently on, so switch it off, restart & change the icon
+ #
+...

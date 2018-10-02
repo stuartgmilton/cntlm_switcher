@@ -1,0 +1,10 @@
+---
+
+config_location: /etc/cntlm.conf
+service_name: cntlmd
+
+no_proxy_on: "localhost, 127.0.0.*, 10.*, 192.168.*"
+no_proxy_off: "*"
+
+icon_on: "green"
+icon_off: "red"
